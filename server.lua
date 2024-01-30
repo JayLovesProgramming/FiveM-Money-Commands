@@ -1,32 +1,35 @@
 local config = require "config"
 
 -- Functions -- 
-local function moneyNotify(source, title, description, typeOfNotification)
+local function moneyNotify(source, data)
+    locsl src = source
     if config.notificationInfo.type == "ox" then
-        lib.notify(source, {
+        lib.notify(src, {
             title = config.notificationInfo.title,
-            description = description,
-            type = typeOfNotification,
+            description = data[1],
+            type = data[2],
+            duration = 3000,
             position = config.notificationInfo.position
         })
     elseif config.notificationInfo.type == "qb" then
-        exports.qbx_core:Notify(source, description, typeOfNotification)
+        exports.qbx_core:Notify(src, data[1] data[2], 3500)
     end
 end
 
 local function getPlayerValuables(source, type)
+    local src = source
     local moneyTypeMap = {
         cash = "cash",
         bank = "bank",
         crypto = "crypto",
     }
     if moneyTypeMap[type] then
-        local amount = exports.qbx_core:GetPlayer(source).PlayerData.money[moneyTypeMap[type]]
+        local amount = exports.qbx_core:GetPlayer(src).PlayerData.money[moneyTypeMap[type]]
         if amount > 0 then
             local formattedAmountWithCommas = string.format("%s", string.format("%d", tonumber(amount)):reverse():gsub("(%d%d%d)", "%1,"):reverse():gsub("^,", ""))
-            moneyNotify(source, config.notificationInfo.title, "Your current " .. type .. " amount: " .. config.currency .. formattedAmountWithCommas, "success")
+            moneyNotify(src, {config.notificationInfo.title, "Your current " .. type .. " amount: " .. config.currency .. formattedAmountWithCommas, "success")
         else
-            moneyNotify(source, config.notificationInfo.title, "Your "..type.." is currently empty..", "error")
+            moneyNotify(src, {config.notificationInfo.title, "Your "..type.." is currently empty..", "error"})
         end
     end
 end
@@ -35,19 +38,22 @@ end
 lib.addCommand(config.cash.commandName, {
     help = 'Check how much cash is in your pockets',
 }, function(source)
-    getPlayerValuables(source, "cash")
+    local src = source
+    getPlayerValuables(src, "cash")
 end)
 
 if not config.realistic then
 lib.addCommand(config.bank.commandName, {
     help = 'Check your current bank amount',
 }, function(source)
-    getPlayerValuables(source, "bank")
+    local src = source
+    getPlayerValuables(src, "bank")
 end)
 
 lib.addCommand(config.crypto.commandName, {
     help = 'Check how much crypto you have currently',
 }, function(source)
-    getPlayerValuables(source, "crypto")
+    local src = source
+    getPlayerValuables(src, "crypto")
 end)
 end
