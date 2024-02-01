@@ -10,9 +10,7 @@ local function moneyNotify(source, data)
             duration = 3000,
             position = config.notificationInfo.position
         }) 
-        print("ddd")
     elseif config.notificationInfo.type == "qb" then
-        print("aaa")
         exports.qbx_core:Notify(source, data[1], data[2], 3500)
     end
 end
@@ -27,7 +25,6 @@ local function getPlayerValuables(source, type)
     if moneyTypeMap[type] then
         local amount = exports.qbx_core:GetPlayer(src).PlayerData.money[moneyTypeMap[type]]
         if amount > 0 then
-          print("awd")
             local formattedAmountWithCommas = string.format("%s", string.format("%d", tonumber(amount)):reverse():gsub("(%d%d%d)", "%1,"):reverse():gsub("^,", ""))
             moneyNotify(src, {config.notificationInfo.title, "Your current " .. type .. " amount: " .. config.currency .. formattedAmountWithCommas, "success"})
         else
