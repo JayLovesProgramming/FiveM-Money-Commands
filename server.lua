@@ -2,17 +2,18 @@ local config = require "config"
 
 -- Functions -- 
 local function moneyNotify(source, data)
-    locsl src = source
     if config.notificationInfo.type == "ox" then
-        lib.notify(src, {
-            title = config.notificationInfo.title,
-            description = data[1],
-            type = data[2],
+        lib.notify(source, {
+            title = data[1],
+            description = data[2],
+            type = data[3],
             duration = 3000,
             position = config.notificationInfo.position
-        })
+        }) 
+        print("ddd")
     elseif config.notificationInfo.type == "qb" then
-        exports.qbx_core:Notify(src, data[1] data[2], 3500)
+        print("aaa")
+        exports.qbx_core:Notify(source, data[1], data[2], 3500)
     end
 end
 
@@ -26,8 +27,9 @@ local function getPlayerValuables(source, type)
     if moneyTypeMap[type] then
         local amount = exports.qbx_core:GetPlayer(src).PlayerData.money[moneyTypeMap[type]]
         if amount > 0 then
+          print("awd")
             local formattedAmountWithCommas = string.format("%s", string.format("%d", tonumber(amount)):reverse():gsub("(%d%d%d)", "%1,"):reverse():gsub("^,", ""))
-            moneyNotify(src, {config.notificationInfo.title, "Your current " .. type .. " amount: " .. config.currency .. formattedAmountWithCommas, "success")
+            moneyNotify(src, {config.notificationInfo.title, "Your current " .. type .. " amount: " .. config.currency .. formattedAmountWithCommas, "success"})
         else
             moneyNotify(src, {config.notificationInfo.title, "Your "..type.." is currently empty..", "error"})
         end
