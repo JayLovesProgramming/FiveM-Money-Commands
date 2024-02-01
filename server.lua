@@ -11,7 +11,7 @@ local function moneyNotify(source, data)
             position = config.notificationInfo.position
         }) 
     elseif config.notificationInfo.type == "qb" then
-        exports.qbx_core:Notify(source, data[1], data[2], 3500)
+        exports.qbx_core:Notify(source, data[2], data[3], 3500)
     end
 end
 
