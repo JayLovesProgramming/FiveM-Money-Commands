@@ -42,17 +42,17 @@ lib.addCommand(config.cash.commandName, {
 end)
 
 if not config.realistic then
-lib.addCommand(config.bank.commandName, {
-    help = 'Check your current bank amount',
-}, function(source)
-    local src = source
-    getPlayerValuables(src, "bank")
-end)
-
-lib.addCommand(config.crypto.commandName, {
-    help = 'Check how much crypto you have currently',
-}, function(source)
-    local src = source
-    getPlayerValuables(src, "crypto")
-end)
+    lib.addCommand(config.bank.commandName, {
+        help = 'Check your current bank amount',
+    }, function(source)
+        local src = source
+        getPlayerValuables(src, "bank")
+    end)
+    
+    lib.addCommand(config.crypto.commandName, {
+        help = 'Check how much crypto you have currently',
+    }, function(source)
+        local src = source
+        getPlayerValuables(src, "crypto")
+    end)
 end
